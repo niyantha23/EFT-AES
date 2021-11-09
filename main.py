@@ -1,9 +1,17 @@
-from flask import Flask
+from flask import Flask, request
+from flask_restful import Resource, Api
 
 app=Flask(__name__)
-@app.route('/')
-def hello():
-    return "HEllo world"
+api =Api(app)
+
+class HelloWorld(Resource):
+    def get(self):
+        return{'about':"Hello"}  
+
+api.add_resource(HelloWorld,'/')
+
+if __name__=='__main__':
+    app.run(debug=True)
 
 
     
