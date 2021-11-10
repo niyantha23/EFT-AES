@@ -1,5 +1,6 @@
 import pymongo
 from pymongo import MongoClient
+from pymongo.message import insert
 
 
 def get_database():
@@ -19,3 +20,9 @@ def getpwd(username):
     record=user_collection.find_one({"username":username})
     return record['pwd']
 
+def insert_transactions(tag,nonce,cyphertext):
+    dbname=get_database()
+    transaction_collection=dbname['transactions']
+    transaction_collection.insert_one({"tag":tag,"nonce":nonce,"encrypted_data":cyphertext})
+
+insert_transactions("tag","nonce","cyphertext")    

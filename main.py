@@ -18,10 +18,16 @@ class Auth(Resource):
         else:
             return {"status":"fail"}
 
-
+# make endpoint to store tag nonce and encrypted data in db
+class StoreEncrypted(Resource):
+    def post(self,tag,nonce,cyphertext):
+        insert=db.insert_transactions(tag,nonce,cyphertext)
+        return {"status":insert}
+        
 
 api.add_resource(HelloWorld,'/')
 api.add_resource(Auth,'/auth/<string:username>/<string:password>')
+api.add_resource(StoreEncrypted,'/store/<string:tag>/<string:nonce>/<string:cyphertext>')
 
 if __name__=='__main__':
     app.run(debug=True)
