@@ -57,4 +57,15 @@ def add_amount(username,amount):
     user_collection.update_one({"username":username},{"$set":{"amount":str(cash)}})
     return True
 
+def insert_otp(email,otp):
+    dbname=get_database()
+    user_collection=dbname['user']
+    user_collection.update_one({"email":email},{"$set":{"otp":str(otp)}})
+
+def get_otp(email):
+    dbname=get_database()
+    user_collection=dbname['user']
+    record=user_collection.find_one({"email":email})
+    return record['otp']
+
 
