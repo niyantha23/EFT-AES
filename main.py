@@ -5,8 +5,6 @@ import db,util,AES
 app=Flask(__name__)
 api =Api(app)
 
-
-
 class HelloWorld(Resource):
     def get(self):
         return{'about':"Hello"}  
@@ -34,9 +32,8 @@ class UserData(Resource):
 class PostTransaction(Resource):
     def get(self,username,to,amount):
         util.encrypt_and_store(username,to,amount)
-        
-        #decrypt data and make changes in the acc ... func 2
-        return {"status":username,"to":to,"amount":amount}
+        util.decrypt_and_update()
+        return {"status":"success"}
 
     def post(self):
     

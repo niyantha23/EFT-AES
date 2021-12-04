@@ -22,7 +22,7 @@ def decrypt(tag,encrypted, nonce):
     plaintext = cipher.decrypt(encrypted)
     try:
         cipher.verify(tag)
-        return print( plaintext.decode())
+        return plaintext.decode()
     except ValueError:
         return print("Key incorrect or message corrupted")
 

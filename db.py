@@ -33,5 +33,28 @@ def insert_transactions(tag,nonce,cyphertext):
     transaction_collection=dbname['transactions']
     transaction_collection.insert_one({"tag":tag,"nonce":nonce,"encrypted_data":cyphertext})
 
-# d=getAll("niyantha23")  
-# print(d.amount)
+def get_latest_transaction():
+    dbname=get_database()
+    transaction_collection=dbname['transactions']
+    record=transaction_collection.find_one(sort=[( '_id', pymongo.DESCENDING )])
+    return record
+
+def remove_amount(username,amount):
+    dbname=get_database()
+    user_collection=dbname['user']
+    record=user_collection.find_one({"username":username})
+    cash=int(record['amount'])
+    cash-=amount
+    user_collection.update_one({"username":username},{"$set":{"amount":str(cash)}})
+    return True
+
+def add_amount(username,amount):
+    dbname=get_database()
+    user_collection=dbname['user']
+    record=user_collection.find_one({"username":username})
+    cash=int(record['amount'])
+    cash+=amount
+    user_collection.update_one({"username":username},{"$set":{"amount":str(cash)}})
+    return True
+
+
