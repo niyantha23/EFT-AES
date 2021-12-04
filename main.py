@@ -1,6 +1,6 @@
 from flask import Flask, request,jsonify
 from flask_restful import Resource, Api
-import db,util
+import db,util,AES
 
 app=Flask(__name__)
 api =Api(app)
@@ -29,17 +29,24 @@ class UserData(Resource):
             return {"username":record.name,"dob":record.dob,"email":record.email,"amount":record.amount}
         else:
             return {"status":"Invalid credential"}
+      
 
+class PostTransaction(Resource):
+    def get(self,username,to,amount):
+        util.encrypt_and_store(username,to,amount)
+        
+        #decrypt data and make changes in the acc ... func 2
+        return {"status":username,"to":to,"amount":amount}
 
-# make endpoint to store tag nonce and encrypted data in db
-class StoreEncrypted(Resource):
-    def post(self,tag,nonce,cyphertext):
-        insert=db.insert_transactions(tag,nonce,cyphertext)
-        return {"status"}        
+    def post(self):
+    
+        #insert=db.insert_transactions(tag,nonce,cyphertext)
+        return request.get_json(force=True) 
 
 api.add_resource(HelloWorld,'/')
 api.add_resource(Auth,'/auth/<string:username>/<string:password>')
 api.add_resource(UserData,'/user/<string:username>/<string:password>')
+api.add_resource(PostTransaction,'/store/<string:username>/<string:to>/<string:amount>')
 #api.add_resource(StoreEncrypted,'/store/<string:tag>/<string:nonce>/<string:cyphertext>')
 
 if __name__=='__main__':

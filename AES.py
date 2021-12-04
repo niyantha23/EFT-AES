@@ -8,8 +8,9 @@ def encrypt(data):
     nonce=aes.nonce
     encrypted,tag = aes.encrypt_and_digest(data)
     return tag, nonce,encrypted
-data="niyantha is my name"
-a,b,c=encrypt(data.encode("utf8"))    
+
+#data="niyantha is my name"
+#a,b,c=encrypt(data.encode("utf8"))    
 #print(a)
 #print(b)
 #print(c)
@@ -25,5 +26,5 @@ def decrypt(tag,encrypted, nonce):
     except ValueError:
         return print("Key incorrect or message corrupted")
 
-decrypt(a,c,b)
+#decrypt(a,c,b)
 
