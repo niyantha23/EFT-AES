@@ -1,0 +1,1 @@
+print(decrypt(a,c,b))

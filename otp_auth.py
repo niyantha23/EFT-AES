@@ -16,7 +16,7 @@ def send_otp(email):
     s = smtplib.SMTP('smtp.gmail.com', 587)
 
     s.starttls()
-    s.login("emailid", "password")
+    s.login("nabhan.a2@gmail.com", "bmfdactsbvpuifwp")
     #emailid = input("Enter your email: ")
     emailid=email
     s.sendmail('&&&&&&&&&&&',emailid,msg)

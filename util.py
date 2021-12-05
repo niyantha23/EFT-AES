@@ -8,12 +8,13 @@ def get_sha256(string):
 def encrypt_and_store(username,to,amount):
     data=username+" "+to+" " +str(amount)
     tag,nonce,cyphertext=AES.encrypt(data.encode("utf8"))
-    db.insert_transactions(tag,nonce,cyphertext)
+    db.insert_transactions(tag,nonce,cyphertext,AES.key)
+    # db.insert_key(username,AES.key)
 
 
 def decrypt_and_update():
     record=db.get_latest_transaction()
-    plaintext=AES.decrypt(record['tag'],record['encrypted_data'],record['nonce'])
+    plaintext=AES.decrypt(record['tag'],record['encrypted_data'],record['nonce'], record['key'])
     arr=plaintext.split()
     db.remove_amount(arr[0],int(arr[2]))
     db.add_amount(arr[1],int(arr[2]))

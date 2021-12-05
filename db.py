@@ -28,16 +28,21 @@ def getpwd(username):
     record=user_collection.find_one({"username":username})
     return record['pwd']
 
-def insert_transactions(tag,nonce,cyphertext):
+def insert_transactions(tag,nonce,cyphertext,key):
     dbname=get_database()
     transaction_collection=dbname['transactions']
-    transaction_collection.insert_one({"tag":tag,"nonce":nonce,"encrypted_data":cyphertext})
+    transaction_collection.insert_one({"tag":tag,"nonce":nonce,"encrypted_data":cyphertext,"key":key})
 
 def get_latest_transaction():
     dbname=get_database()
     transaction_collection=dbname['transactions']
     record=transaction_collection.find_one(sort=[( '_id', pymongo.DESCENDING )])
     return record
+
+# def insert_key(username,key):
+#     dbname=get_database()
+#     transaction_collection=dbname['transactions']
+#     transaction_collection.insert_one({"username":username},{"$set":{"key":key}})
 
 def remove_amount(username,amount):
     dbname=get_database()
